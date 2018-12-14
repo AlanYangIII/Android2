@@ -6,22 +6,32 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     TabLayout TabLayout;
     ViewPager ViewPager;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-    }
 
+        imageView = findViewById(R.id.ic_back);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
     private void initViews() {
         TabLayout = findViewById(R.id.Tab_layout);
@@ -41,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
         FragmentPagerAdapter Adapter = new Adapter(getSupportFragmentManager(), fragmentList, titles);
         ViewPager.setAdapter(Adapter);
         TabLayout.setupWithViewPager(ViewPager);
+
+        ViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                Toast.makeText(getApplicationContext(),"这是第"+(i+1)+"个",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+
     }
 
 }
